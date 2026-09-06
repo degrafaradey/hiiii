@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Квиз</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Oswald:wght@500;600;700&family=Unbounded:wght@700;900&family=PT+Serif:ital,wght@1,400;1,700&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/scenes.css">
+</head>
+<body>
+
+<!-- фон сцены живёт здесь, под всем содержимым -->
+<div id="scene"></div>
+
+<div class="stage">
+
+  <header class="thread" id="thread" hidden>
+    <div class="beads" id="beads"></div>
+  </header>
+
+  <main class="flow" id="flow">
+
+    <section class="screen" id="screen-intro">
+      <h1 class="intro-title" id="welcome-title"></h1>
+      <p class="intro-latin" id="welcome-latin"></p>
+      <div class="intro-rule"></div>
+      <p class="body" id="welcome"></p>
+    </section>
+
+    <section class="screen" id="screen-question" hidden>
+      <p class="meta" id="q-num"></p>
+      <h2 class="question" id="q-text"></h2>
+      <figure class="media" id="q-media" hidden></figure>
+      <p class="notice" id="notice" hidden></p>
+      <label class="field">
+        <textarea id="answer" rows="2" placeholder="твой ответ" autocomplete="off" spellcheck="false"></textarea>
+      </label>
+    </section>
+
+    <section class="screen" id="screen-verdict" hidden>
+      <p class="hand">верно</p>
+      <div class="letter" id="verdict-text"></div>
+    </section>
+
+    <section class="screen" id="screen-pending" hidden>
+      <p class="hand">на проверке</p>
+      <div class="pulse" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="body" id="pending-text"></p>
+    </section>
+
+    <section class="screen" id="screen-final" hidden>
+      <p class="hand">всё пройдено</p>
+      <div class="letter" id="final-text"></div>
+      <figure class="prize" id="prize-box" hidden>
+        <img id="prize-img" alt="Приз">
+        <figcaption id="prize-caption"></figcaption>
+      </figure>
+    </section>
+
+    <section class="screen" id="screen-error" hidden>
+      <h2 class="question" id="error-text"></h2>
+    </section>
+
+  </main>
+
+  <footer class="dock">
+    <button class="action" id="action" type="button">Погнали</button>
+    <button class="ghost" id="secondary" type="button" hidden>Ответить по-другому</button>
+  </footer>
+
+</div>
+
+<!-- мини-игра, видео-переход и финальная надпись рисуются здесь, поверх всего -->
+<div id="overlay"></div>
+
+<script src="/scenes.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
