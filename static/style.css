@@ -1,0 +1,286 @@
+:root {
+  --night: #17101f;
+  --night-2: #201727;
+  --ink: #f7eff3;
+  --muted: #a991b4;
+  --rose: #e9799b;
+  --rose-dim: #7a4459;
+  --gold: #e9c58c;
+  --hair: rgba(247, 239, 243, 0.14);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--night);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+body {
+  font-family: "Golos Text", system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.62;
+  min-height: 100vh;
+}
+
+/* мягкое свечение сверху — единственная декорация на всю страницу */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -30vh 0 auto 0;
+  height: 60vh;
+  background: radial-gradient(60% 50% at 50% 60%, rgba(233, 121, 155, 0.18), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: max(18px, env(safe-area-inset-top)) 22px max(18px, env(safe-area-inset-bottom));
+}
+
+/* ---------- нить с бусинами = прогресс ---------- */
+
+.thread { padding: 6px 0 26px; }
+
+.beads {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.beads::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 50%;
+  height: 1px;
+  background: var(--hair);
+}
+
+.bead {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--night);
+  box-shadow: 0 0 0 1px var(--rose-dim);
+  transition: background 0.45s ease, box-shadow 0.45s ease, transform 0.45s ease;
+}
+
+.bead.done {
+  background: var(--rose);
+  box-shadow: 0 0 0 1px var(--rose);
+}
+
+.bead.now {
+  background: var(--gold);
+  box-shadow: 0 0 0 1px var(--gold), 0 0 14px rgba(233, 197, 140, 0.55);
+  transform: scale(1.45);
+}
+
+/* ---------- содержимое ---------- */
+
+.flow {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 0 32px;
+}
+
+.screen[hidden] { display: none; }
+
+.screen {
+  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hand {
+  margin: 0 0 14px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--rose);
+}
+
+.display {
+  margin: 0 0 20px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(31px, 9vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.body {
+  margin: 0;
+  color: var(--muted);
+  max-width: 34em;
+}
+
+.meta {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.question {
+  margin: 0 0 26px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(25px, 7vw, 32px);
+  line-height: 1.22;
+}
+
+.media { margin: 0 0 22px; }
+.media img, .media video {
+  width: 100%;
+  border-radius: 14px;
+  display: block;
+}
+
+.notice {
+  margin: 0 0 20px;
+  padding-left: 14px;
+  border-left: 2px solid var(--rose);
+  color: var(--ink);
+  font-size: 15px;
+}
+
+/* поле ввода — просто строка на странице, без коробки */
+.field { display: block; }
+
+.field textarea {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--hair);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 17px;
+  padding: 6px 0 12px;
+  resize: none;
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+
+.field textarea::placeholder { color: rgba(169, 145, 180, 0.65); }
+.field textarea:focus { border-bottom-color: var(--rose); }
+
+/* письмо: персональные тексты — самое крупное и «тёплое» место в макете */
+.letter {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(21px, 5.6vw, 26px);
+  line-height: 1.4;
+}
+
+.letter b { color: var(--gold); font-weight: 600; }
+.letter u { text-decoration-color: var(--rose); text-underline-offset: 3px; }
+
+.pulse {
+  display: flex;
+  gap: 7px;
+  margin: 0 0 20px;
+}
+
+.pulse span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rose);
+  animation: breathe 1.4s ease-in-out infinite;
+}
+
+.pulse span:nth-child(2) { animation-delay: 0.2s; }
+.pulse span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 1; }
+}
+
+.prize {
+  margin: 26px 0 0;
+}
+
+.prize img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+
+.prize figcaption {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ---------- кнопки ---------- */
+
+.dock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.action {
+  width: 100%;
+  border: 0;
+  border-radius: 999px;
+  padding: 15px 20px;
+  background: var(--rose);
+  color: #1a0f16;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.12s ease;
+}
+
+.action:active { transform: scale(0.985); }
+.action:disabled { opacity: 0.45; cursor: default; }
+
+.ghost {
+  width: 100%;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.ghost:hover { color: var(--ink); }
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
